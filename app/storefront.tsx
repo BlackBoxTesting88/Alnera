@@ -1,5 +1,6 @@
 'use client';
 
+import { assetPath } from './asset-path';
 import { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { useRouter } from 'next/navigation';
@@ -18,7 +19,7 @@ const products = [
 
 function Bottle({ index }: { index: number }) {
   const p = products[index];
-  return <img className={`bottle-photo bottle-photo-${p.id}`} src={p.id === 'balance' ? '/images/alnera-balance-bottle-clean.png' : `/images/alnera-${p.id}-bottle.png`} alt={`Alnera ${p.name}, bočica od 60 kapsula`} />;
+  return <img className={`bottle-photo bottle-photo-${p.id}`} src={assetPath(p.id === 'balance' ? '/images/alnera-balance-bottle-clean.png' : `/images/alnera-${p.id}-bottle.png`)} alt={`Alnera ${p.name}, bočica od 60 kapsula`} />;
 }
 
 const descriptions = [
@@ -166,7 +167,7 @@ export default function Storefront({ initialProduct = null }: { initialProduct?:
 
     <section className="story" ref={story} aria-label="Otvori svoj ritual — skroluj za otvaranje kutije">
       <div className="stage">
-        <div className="physical-scene"><img className="stage-photo" src="/images/alnera-open-box.png" alt="Otvorena breskvasta Alnera kutija sa Glow bočicom" fetchPriority="high"/>
+        <div className="physical-scene"><img className="stage-photo" src={assetPath("/images/alnera-open-box.png")} alt="Otvorena breskvasta Alnera kutija sa Glow bočicom" fetchPriority="high"/>
         <div className="lid" aria-hidden="true"><div className="lid-face"><span className="emboss">A</span><span className="lid-wordmark">alnera</span><span className="lid-note">More balance<br/>for your every day.</span></div><div className="lid-side"/></div></div>
         <div className="intro-copy"><p className="eyebrow">NEŠTO SAMO ZA TEBE</p><h1>Otvori<br/>svoj ritual.</h1><p className="intro-note">Mali trenutak.<br/>Sasvim tvoj.</p></div>
         <div className="opening-copy"><span className="eyebrow">01 / IZNUTRA</span><h2>Prostor<br/>za sebe.</h2><span className="hairline"/><p>Pažnja je u detaljima.<br/>I u onome što biraš za sebe.</p></div>
@@ -232,7 +233,7 @@ export default function Storefront({ initialProduct = null }: { initialProduct?:
 
     {menu && <div className="overlay" role="dialog" aria-modal="true" aria-label="Navigacija"><button className="close" autoFocus onClick={() => setMenu(false)}>Zatvori ×</button><div className="menu-links"><button onClick={goCollection}>Kolekcija ↗</button><button onClick={() => { setMenu(false); router.push('/journal'); }}>Journal ↗</button></div></div>}
     {detail !== null && <div className="overlay product-dialog" role="dialog" aria-modal="true" aria-label={products[detail].name} style={{ background: products[detail].color }}>
-      <div className="product-nav"><a className="wordmark" href="/">alnera</a><button onClick={() => { setCartOpen(true); setCheckout(false); }}>Korpa ({totalItems})</button><button autoFocus onClick={closeProduct}>Kolekcija ×</button></div>
+      <div className="product-nav"><Link className="wordmark" href="/">alnera</Link><button onClick={() => { setCartOpen(true); setCheckout(false); }}>Korpa ({totalItems})</button><button autoFocus onClick={closeProduct}>Kolekcija ×</button></div>
       <div className="product-main"><div className="detail-art"><span className="product-ghost" aria-hidden="true">{products[detail].name}</span><Bottle index={detail}/><span className="photo-caption">ALNERA / {products[detail].name.toUpperCase()} / 60 KAPSULA</span></div>
       <div className="detail-copy"><span className="eyebrow">TVOJ SVAKODNEVNI RITUAL / {products[detail].number}</span><h1>{products[detail].name}</h1><p className="product-subtitle">{products[detail].subtitle}</p><p className="product-description">{descriptions[detail]}</p>
       <div className="product-facts"><span>60 kapsula</span><span>Dodatak ishrani</span><span>Jedna formula</span></div>

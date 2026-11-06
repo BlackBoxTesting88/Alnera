@@ -1,3 +1,4 @@
+import { assetPath } from './asset-path';
 type Scene = 'glow' | 'calm' | 'balance' | 'ritual' | 'collection' | 'travel' | 'packaging' | 'detail';
 // Exact viewports into the client's original contact sheets. No source files are modified.
 const crops: Record<Scene, [number, number, number, number]> = {
@@ -19,6 +20,6 @@ const descriptions: Record<Scene, string> = {
 export default function EditorialPhoto({ scene, className = '', eager = false }: { scene: Scene; className?: string; eager?: boolean }) {
   const packaging = scene === 'packaging' || scene === 'detail';
   return <div className={`editorial-photo ${packaging ? 'photo-packaging' : 'photo-grid'} ${className}`} data-priority={eager ? 'high' : undefined}>
-    <svg viewBox={crops[scene].join(' ')} preserveAspectRatio="xMidYMid slice" role="img" aria-label={descriptions[scene]}><title>{descriptions[scene]}</title><image href={`/images/${packaging ? 'alnera-packaging' : 'alnera-lifestyle'}.png`} width={packaging ? 1536 : 1254} height={packaging ? 1024 : 1254}/></svg>
+    <svg viewBox={crops[scene].join(' ')} preserveAspectRatio="xMidYMid slice" role="img" aria-label={descriptions[scene]}><title>{descriptions[scene]}</title><image href={assetPath(`/images/${packaging ? 'alnera-packaging' : 'alnera-lifestyle'}.png`)} width={packaging ? 1536 : 1254} height={packaging ? 1024 : 1254}/></svg>
   </div>;
 }
