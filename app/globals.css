@@ -155,3 +155,8 @@ footer.site-footer{display:block;background:#422b29;color:#f2e8df;padding:0 7vw}
   font-size: 12px;
   line-height: 1.65;
 }
+
+/* Product-specific pack sizes, shared with the product page and basket. */
+.formula-index-row h3 small{display:block;margin-top:5px;font:400 9px/1.5 var(--sans);letter-spacing:.03em;opacity:.65}
+
+.product-legal-footer { padding: 20px 7vw 30px; background: #faf5ef; color: #422b29; border-top: 1px solid #422b2920; font-size: 12px; }
