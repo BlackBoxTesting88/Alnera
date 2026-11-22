@@ -29,7 +29,15 @@ export default function GlowStory() {
 
     <section className={styles.everyday} aria-labelledby="glow-everyday-title">
       <div className={styles.everydayPhoto}><EditorialPhoto scene="glow" /><span className={styles.photoNote}>YOUR EVERYDAY GLOW</span></div>
-      <div className={styles.everydayCopy}><span className={styles.eyebrow}>YOUR EVERYDAY GLOW</span><h2 id="glow-everyday-title">Neka nega iznutra postane deo tvoje <em>svakodnevice.</em></h2><div className={styles.body}>{content.everyday.map(text => <p key={text}>{text}</p>)}</div><div className={styles.signature}><strong>ALNERA GLOW</strong><p>Beauty From Within.</p><small>Dodatak ishrani | {content.capsules} kapsula</small></div><a className={styles.cta} href="#glow-buy">Izaberi svoj GLOW <span aria-hidden="true">↑</span></a></div>
+      <div className={styles.everydayCopy}><span className={styles.eyebrow}>YOUR EVERYDAY GLOW</span><h2 id="glow-everyday-title">Neka nega iznutra postane deo tvoje <em>svakodnevice.</em></h2><div className={styles.body}>{content.everyday.map(text => <p key={text}>{text}</p>)}</div></div>
+    </section>
+
+    <section className={styles.closing} aria-labelledby="glow-closing-title">
+      <span className={styles.eyebrow}>ALNERA GLOW / {content.positioning.toUpperCase()}</span>
+      <h2 id="glow-closing-title">Beauty<br /><em>From Within.</em></h2>
+      <p>{content.tagline}</p>
+      <span className={styles.meta}>Dodatak ishrani | {content.capsules} kapsula</span>
+      <a className={styles.cta} href="#glow-buy">Izaberi svoj GLOW <span aria-hidden="true">↑</span></a>
     </section>
   </div>;
 }

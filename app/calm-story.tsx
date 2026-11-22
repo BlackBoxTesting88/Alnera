@@ -2,12 +2,13 @@ import EditorialPhoto from './editorial-photo';
 import CalmConceptCards from './calm-concept-cards';
 import { calmContent as content } from './calm-content';
 import styles from './calm-story.module.css';
+import introStyles from './product-intro.module.css';
 
 export default function CalmStory() {
   return <div className={styles.story}>
     <section className={styles.why} aria-labelledby="calm-why-title">
-      <div><span className={styles.eyebrow}>ALNERA / TRENUTAK POSVEĆEN SEBI</span><h2 id="calm-why-title">Zašto ALNERA <em>CALM?</em></h2></div>
-      <div className={styles.body}>{content.why.map(text => <p key={text}>{text}</p>)}</div>
+      <div><span className={styles.eyebrow}>ALNERA / TRENUTAK POSVEĆEN SEBI</span><h2 id="calm-why-title">Zašto ALNERA <em>CALM?</em></h2><p className={introStyles.signature}>{content.signature}</p></div>
+      <div className={styles.body}>{content.why.map(text => <p key={text}>{text}</p>)}<details className={introStyles.more}><summary>Više o CALM formuli <span aria-hidden="true">+</span></summary><div className={introStyles.moreBody}><p>{content.hero[1]}</p></div></details></div>
     </section>
 
     <section className={styles.concepts} id="calm-koncept" aria-labelledby="calm-concepts-title">

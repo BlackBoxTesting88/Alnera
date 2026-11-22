@@ -70,10 +70,11 @@
 .faqList h3 { margin: 0; font: 500 14px/1.7 var(--sans); }
 .faqList details > p { margin: 0; padding: 0 30px 25px 0; font: 400 13px/1.9 var(--sans); }
 .ingredientList summary:focus-visible, .faqList summary:focus-visible, .cta:focus-visible { outline: 2px solid var(--ink); outline-offset: 5px; }
-.closing { display: flex; flex-direction: column; align-items: center; text-align: center; padding: 85px 7vw 95px; background: #bfd3e1; }
-.closing h2 { font-size: clamp(55px,7vw,105px); line-height: 1.07; margin-block: 25px; }
-.closing > p { font: 400 14px/1.8 var(--sans); margin: 0 0 16px; }
-.cta { display: inline-flex; align-items: center; justify-content: space-between; gap: 45px; padding: 15px 22px; min-height: 48px; margin-top: 28px; background: #344e61; color: #fff8ee; font: 500 12px/1.5 var(--sans); border-radius: 2px; }
+.closing { display: flex; flex-direction: column; align-items: center; text-align: center; padding: 40px 7vw 44px; background: #bfd3e1; }
+.closing h2 { font-size: clamp(36px, 3.6vw, 54px); line-height: 1.08; margin-block: 14px; }
+.closing > p { max-width: 42rem; font: 400 14px/1.7 var(--sans); margin: 0 0 8px; }
+.closing .meta { font: 500 12px/1.7 var(--sans); letter-spacing: .04em; }
+.cta { display: inline-flex; align-items: center; justify-content: center; gap: 24px; padding: 12px 20px; min-height: 48px; margin-top: 18px; background: #344e61; color: #fff8ee; font: 500 14px/1.5 var(--sans); border-radius: 2px; }
 .cta:hover { background: #496b83; }
 .heroCopy .heroTagline { font: italic 23px/1.45 var(--serif); margin: 20px 0 12px; color: #496577; }
 .heroCopy :global(.product-subtitle) { margin: 18px 0 15px; color: #4e6b80; font-size: clamp(25px,2.4vw,35px); }
@@ -124,9 +125,9 @@
   .faq { grid-template-columns: 1fr; gap: 25px; padding: 60px 7vw; }
   .faqList h3 { font-size: 13px; }
   .faqList details > p { font-size: 12px; }
-  .closing { padding: 65px 7vw; }
-  .closing h2 { font-size: 61px; }
-  .closing > p { font-size: 12px; }
+  .closing { padding: 30px 7vw 34px; }
+  .closing h2 { font-size: clamp(32px, 9vw, 40px); margin-block: 12px; }
+  .closing > p { font-size: 13px; }
   .heroCopy .heroTagline { font-size: 22px; }
   .heroCopy .heroSupport { font-size: 12px; }
   .heroCopy .heroSignature { font-size: 18px; }

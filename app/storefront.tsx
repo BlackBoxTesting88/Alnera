@@ -11,13 +11,17 @@ import { LegalFooterLink } from './legal/legal-links';
 import EditorialPhoto from './editorial-photo';
 import { cartKey, cartTotals, emptyCart, money, readCart, singlePrices, maxSubscriptionDiscount, subscriptionOffers, trioDiscount, trioIndex, trioPrice, trioRegularPrice } from './pricing';
 import { articles } from './journal/articles';
-import { products } from './product-catalog';
+import { products, productPath } from './product-catalog';
 import { glowContent } from './glow-content';
 import GlowStory from './glow-story';
 import { calmContent } from './calm-content';
 import CalmStory from './calm-story';
 import calmStyles from './calm-story.module.css';
 import glowStyles from './glow-story.module.css';
+import { balanceContent } from './balance-content';
+import BalanceStory from './balance-story';
+import balanceStyles from './balance-story.module.css';
+import introStyles from './product-intro.module.css';
 
 
 function Bottle({ index }: { index: number }) {
@@ -78,6 +82,7 @@ export default function Storefront({ initialProduct = null }: { initialProduct?:
   const offers = subscriptionOffers.filter(offer => offer.productIndex === detail);
   const selectedOffer = subscribe ? offers[planIndex] : undefined;
   const totalItems = cart.reduce((a, b) => a + b, 0);
+  const detailStyles = detail === 0 ? glowStyles : detail === 1 ? calmStyles : balanceStyles;
   useEffect(() => { setDetail(initialProduct); setQuantity(1); setSubscribe(false); setPlanIndex(0); const frame = requestAnimationFrame(() => document.querySelector('.product-dialog')?.scrollTo({ top: 0 })); return () => cancelAnimationFrame(frame); }, [initialProduct]);
   useEffect(() => {
     setCart(readCart());
@@ -108,7 +113,7 @@ export default function Storefront({ initialProduct = null }: { initialProduct?:
     setPromoOpen(false);
   };
 
-  const openProduct = (i: number) => router.push(`/proizvodi/${products[i].id}`, { scroll: false });
+  const openProduct = (i: number) => router.push(productPath(products[i].id), { scroll: false });
   const closeProduct = () => { setDetail(null); router.push('/#kolekcija', { scroll: false }); };
   const changeCart = (i: number, amount: number) => setCart(items => items.map((n, index) => index === i ? Math.max(0, Math.min(99, n + amount)) : n));
   const addToCart = (i: number) => { changeCart(i, quantity); setCartOpen(true); setCheckout(false); };
@@ -185,7 +190,7 @@ export default function Storefront({ initialProduct = null }: { initialProduct?:
     </section>
 
     <section className="home-ritual" id="alnera-svet"><div className="ritual-image"><div className="ritual-photo-frame"><EditorialPhoto scene="ritual"/><div className="ritual-photo-note"><div><span>SVAKODNEVNA PAŽNJA</span><p>Počinje od tebe.</p></div></div><span className="photo-coordinate" aria-hidden="true">A / 01—03</span></div><span className="image-caption">01 / TRENUTAK KOJI PRIPADA TEBI</span></div><div className="ritual-copy"><span className="eyebrow">VIŠE OD SVAKODNEVNE NAVIKE</span><h2>Nešto malo.<br/><em>Sasvim tvoje.</em></h2><p>Prva čaša vode. Svetlo kroz prozor. Nekoliko minuta pre nego što dan ubrza.</p><p>Alnera okuplja tri formule u jednom svetu pažnje prema sebi. Glow, Calm i Balance — svaka sa svojim sastavom, bojom i mestom u tvojoj svakodnevici.</p><Link className="text-link" href="/journal/ritual-koji-staje-u-tvoj-dan">O malim ritualima <span>↗</span></Link></div></section>
-    <section className="formula-index" aria-label="Pregled formula i sastojaka"><div className="formula-index-heading"><span className="eyebrow">ALNERA / POGLED U FORMULU</span><p>Tri različita sastava.<br/><em>Pažnja u svakom detalju.</em></p><span className="formula-index-caption">DODACI ISHRANI / TRI FORMULE</span></div><div className="formula-index-list">{products.map((product,i) => <Link key={product.id} href={`/proizvodi/${product.id}`} className="formula-index-row"><span className="formula-index-number">{product.number}</span><span className="formula-index-dot" style={{ background: product.color }}/><h3>{product.name}<small>{product.capsules} kapsula</small></h3><span className="formula-index-ingredients">{product.ingredients}</span><span className="formula-index-arrow" aria-hidden="true">↗</span></Link>)}</div><small className="formula-index-note">Upoznaj sastav i informacije o svakoj formuli na stranici proizvoda.</small></section>
+    <section className="formula-index" aria-label="Pregled formula i sastojaka"><div className="formula-index-heading"><span className="eyebrow">ALNERA / POGLED U FORMULU</span><p>Tri različita sastava.<br/><em>Pažnja u svakom detalju.</em></p><span className="formula-index-caption">DODACI ISHRANI / TRI FORMULE</span></div><div className="formula-index-list">{products.map((product,i) => <Link key={product.id} href={productPath(product.id)} className="formula-index-row"><span className="formula-index-number">{product.number}</span><span className="formula-index-dot" style={{ background: product.color }}/><h3>{product.name}<small>{product.capsules} kapsula</small></h3><span className="formula-index-ingredients">{product.ingredients}</span><span className="formula-index-arrow" aria-hidden="true">↗</span></Link>)}</div><small className="formula-index-note">Upoznaj sastav i informacije o svakoj formuli na stranici proizvoda.</small></section>
     <section className="packaging-story"><div className="packaging-copy"><span className="eyebrow">TRI BOJE / JEDAN POTPIS</span><h2>Pažnja se vidi.<br/><em>I pre otvaranja.</em></h2><p>Breskva, puderasta plava i lavanda. Tamno staklo i prepoznatljiv potpis. Svaki detalj deo je iste Alnera priče.</p><div className="packaging-imprint"><EditorialPhoto scene="detail"/><div className="imprint-copy"><span className="imprint-overline">U ALNERA KOLEKCIJI</span><p><strong>3</strong><em>formule</em></p><div className="imprint-colors" aria-hidden="true"><i/><i/><i/></div><span className="imprint-formulas">Glow · Calm · Balance</span></div><span className="imprint-caption">ALNERA / DETALJ PO DETALJ</span></div><Link className="text-link" href="/journal/paznja-je-u-detaljima">Zavirimo u detalje <span>↗</span></Link>
       <section className="trio-reasons" aria-labelledby="trio-reasons-title">
         <h3 id="trio-reasons-title">Zašto izabrati <em>Trio?</em></h3>
@@ -233,9 +238,15 @@ export default function Storefront({ initialProduct = null }: { initialProduct?:
     {detail !== null && <div className="overlay product-dialog" role="dialog" aria-modal="true" aria-label={products[detail].name} style={{ background: products[detail].color }}>
       <div className="product-nav"><Link className="wordmark" href="/">alnera</Link><button onClick={() => { setCartOpen(true); setCheckout(false); }}>Korpa ({totalItems})</button><button autoFocus onClick={closeProduct}>Kolekcija ×</button></div>
       <div className="product-main"><div className="detail-art"><span className="product-ghost" aria-hidden="true">{products[detail].name}</span><Bottle index={detail}/><span className="photo-caption">ALNERA / {products[detail].name.toUpperCase()} / {products[detail].capsules} KAPSULA{detail === 0 && <small className={glowStyles.assetNote}>Privremeni prikaz ambalaže. Finalna etiketa je u pripremi.</small>}</span></div>
-      <div className={`detail-copy${detail === 0 ? ` ${glowStyles.heroCopy}` : detail === 1 ? ` ${calmStyles.heroCopy}` : ''}`}><span className="eyebrow">{detail === 0 ? glowContent.positioning : detail === 1 ? 'DODATAK ISHRANI / VEČERNJI RITUAL' : `TVOJ SVAKODNEVNI RITUAL / ${products[detail].number}`}</span><h1>{detail === 1 ? 'CALM' : products[detail].name}</h1>{detail === 0 && <span className={glowStyles.heroBadge}>{glowContent.badge}</span>}<p className="product-subtitle">{products[detail].subtitle}</p>{detail === 0 && <p className={glowStyles.heroTagline}>{glowContent.tagline}</p>}{detail === 1 && <p className={calmStyles.heroTagline}>{calmContent.tagline}</p>}<p className="product-description">{products[detail].description}</p>{detail === 1 && <><p className={calmStyles.heroSupport}>{calmContent.hero[1]}</p><p className={calmStyles.heroSignature}>{calmContent.signature}</p></>}
-      <div className="product-facts"><span>{products[detail].capsules} kapsula</span>{detail === 1 ? <><span>{calmContent.doseLabel}</span><span>{calmContent.durationDays} dana</span></> : <><span>Dodatak ishrani</span><span>Jedna formula</span></>}</div>
-      <div className={`buy-block${detail === 0 ? ` ${glowStyles.buyAnchor}` : detail === 1 ? ` ${calmStyles.buyAnchor}` : ''}`} id={detail === 0 ? 'glow-buy' : detail === 1 ? 'calm-buy' : undefined}>
+      <div className={`detail-copy ${detailStyles.heroCopy} ${introStyles.hero}`} data-product={products[detail].id}>
+      <span className="eyebrow">{detail === 0 ? glowContent.positioning : detail === 1 ? 'DODATAK ISHRANI / VEČERNJI RITUAL' : balanceContent.category.toUpperCase()}</span>
+      <h1>{detail === 0 ? products[detail].name : products[detail].name.toUpperCase()}</h1>
+      {detail === 0 && <span className={glowStyles.heroBadge}>{glowContent.badge}</span>}
+      <p className={`product-subtitle ${introStyles.subtitle}`}>{products[detail].subtitle}</p>
+      <p className={introStyles.tagline}>{detail === 0 ? glowContent.tagline : detail === 1 ? calmContent.tagline : balanceContent.tagline}</p>
+      <p className={`product-description ${introStyles.description}`}>{products[detail].description}</p>
+      <div className={`product-facts ${introStyles.facts}`}><span>{products[detail].capsules} kapsula</span>{detail === 1 ? <><span>{calmContent.doseLabel}</span><span>{calmContent.durationDays} dana</span></> : detail === 2 ? <><span>{balanceContent.doseLabel}</span><span>{balanceContent.durationDays} dana</span></> : <><span>Dodatak ishrani</span><span>Jedna formula</span></>}</div>
+      <div className={`buy-block ${detailStyles.buyAnchor}`} id={`${products[detail].id}-buy`}>
         <div className="price-row"><span>{money(selectedOffer?.price ?? singlePrices[detail])}</span><small>{selectedOffer ? 'Po isporuci' : 'Po pakovanju'}</small></div>
         <fieldset className="purchase-options">
           <legend className="eyebrow">Izaberi način kupovine</legend>
@@ -266,9 +277,13 @@ export default function Storefront({ initialProduct = null }: { initialProduct?:
         </div>
         <small className="purchase-note">Probne cene. Porudžbine i naplata još nisu aktivni.</small>
       </div>
-      <div className="product-accordions"><details open><summary>Šta je u formuli <span>+</span></summary><p>{products[detail].fullIngredients}</p><small>{detail === 0 ? 'Sastav prema dostavljenom radnom tekstu. Količine sastojaka i konačna deklaracija biće dodati po potvrdi.' : detail === 1 ? <a href="#calm-sastav">Pogledaj količine u dnevnoj dozi od 2 kapsule ↓</a> : 'Sastojci prema referentnoj ambalaži. Količine i potpuna deklaracija biće dopunjeni.'}</small></details><details><summary>Tvoj ritual <span>+</span></summary><p>{detail === 1 ? calmContent.ritual[1] : <>{products[detail].caption} Izaberi trenutak u danu koji posvećuješ sebi.</>}</p><p>{detail === 1 ? calmContent.ritual[2] : 'Način primene i preporučena dnevna doza biće navedeni prema zvaničnoj deklaraciji proizvoda.'}</p></details><details><summary>Pakovanje i informacije <span>+</span></summary><p>Bočica od tamnog stakla sa {products[detail].capsules} kapsula, u kutiji u boji formule.{detail === 1 && <> Pakovanje traje {calmContent.durationDays} dana prema planiranom režimu od {calmContent.dailyCapsules} kapsule uveče.</>} Uslovi dostave, povraćaja i konačna deklaracija biće dostupni pre početka prodaje.</p></details></div>
+      <div className="product-accordions">
+        <details open><summary>Šta je u formuli <span>+</span></summary><p>{products[detail].fullIngredients}</p><small>{detail === 0 ? 'Sastav prema dostavljenom radnom tekstu. Količine sastojaka i konačna deklaracija biće dodati po potvrdi.' : detail === 1 ? <a href="#calm-sastav">Pogledaj količine u dnevnoj dozi od 2 kapsule ↓</a> : <a href="#balance-sastav">Pogledaj količine po jednoj kapsuli</a>}</small></details>
+        <details><summary>Tvoj ritual <span>+</span></summary><p>{detail === 1 ? calmContent.ritual[1] : detail === 2 ? balanceContent.ritual[0] : <>{products[detail].caption} Izaberi trenutak u danu koji posvećuješ sebi.</>}</p><p>{detail === 1 ? calmContent.ritual[2] : detail === 2 ? balanceContent.ritual[1] : 'Način primene i preporučena dnevna doza biće navedeni prema zvaničnoj deklaraciji proizvoda.'}</p></details>
+        <details><summary>Pakovanje i informacije <span>+</span></summary><p>Bočica od tamnog stakla sa {products[detail].capsules} kapsula, u kutiji u boji formule.{detail === 1 && <> Pakovanje traje {calmContent.durationDays} dana prema planiranom režimu od {calmContent.dailyCapsules} kapsule uveče.</>}{detail === 2 && <> Pakovanje traje {balanceContent.durationDays} dana uz preporučenu upotrebu od {balanceContent.dailyCapsules} kapsule uveče.</>} Uslovi dostave, povraćaja i konačna deklaracija biće dostupni pre početka prodaje.</p></details>
+      </div>
       </div></div>
-      {detail === 0 ? <GlowStory /> : detail === 1 ? <CalmStory /> : <section className="product-editorial"><EditorialPhoto scene={products[detail].id as 'glow' | 'calm' | 'balance'}/><div><span className="eyebrow">{products[detail].name.toUpperCase()} / TVOJ TRENUTAK</span><h2>{detail === 0 ? <>Malo svetla.<br/><em>Samo za tebe.</em></> : detail === 1 ? <>Napravi prostor.<br/><em>Uspori trenutak.</em></> : <>Svakog dana.<br/><em>U svom ritmu.</em></>}</h2><p>{detail === 0 ? 'Na polici, uz tvoje omiljene stvari, u trenutku koji odvajaš za sebe. Glow je breskvasto poglavlje Alnera kolekcije.' : detail === 1 ? 'Omiljena šolja, nekoliko stranica i deo dana bez žurbe. Calm je plavo poglavlje tvoje Alnera priče.' : 'Prepoznatljiva lavanda nijansa i formula sa mio-inozitolom i vitaminima. Balance ima svoje mesto u Alnera kolekciji.'}</p><Link href={detail === 1 ? '/journal/prostor-za-predah' : '/journal/ritual-koji-staje-u-tvoj-dan'} className="text-link">Pronađi inspiraciju <span>↗</span></Link></div></section>}
+      {detail === 0 ? <GlowStory /> : detail === 1 ? <CalmStory /> : <BalanceStory />}
       <section className="product-story"><span className="eyebrow">MALI RITUALI / PAŽLJIVO ODABRANI</span><h2>Vreme koje<br/><em>pripada tebi.</em></h2><p>Tri formule. Tri različita trenutka pažnje.<br/>Istraži ostatak Alnera kolekcije.</p><div className="related-products">{products.map((p,i) => i !== detail && <button key={p.id} onClick={() => openProduct(i)} style={{ background:p.color }}><Bottle index={i}/><span><small>{p.number} / ALNERA</small><strong>{p.name}</strong><i>Istraži ritual ↗</i></span></button>)}</div></section>
       <div className="product-legal-footer"><LegalFooterLink /></div>
     </div>}
