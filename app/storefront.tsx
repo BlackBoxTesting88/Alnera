@@ -105,7 +105,10 @@ export default function Storefront({ initialProduct = null }: { initialProduct?:
   const showPromo = promoOpen && initialProduct === null && detail === null && !cartOpen && !menu;
   useEffect(() => {
     const dialog = promoDialog.current;
-    if (showPromo && dialog && !dialog.open) dialog.showModal();
+    if (showPromo && dialog && !dialog.open) {
+      dialog.showModal();
+      dialog.querySelector<HTMLElement>('#trio-promo-title')?.focus({ preventScroll: true });
+    }
   }, [showPromo]);
 
   const dismissPromo = () => {
@@ -166,7 +169,7 @@ export default function Storefront({ initialProduct = null }: { initialProduct?:
   const goCollection = () => { setMenu(false); if (initialProduct !== null) { closeProduct(); return; } document.getElementById('kolekcija')?.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' }); };
 
   return <main>
-    <header className="header"><a className="wordmark" href="#" aria-label="Alnera početna">alnera</a><nav aria-label="Glavna navigacija"><button onClick={goCollection}>Kolekcija <span>↗</span></button><button onClick={() => router.push('/journal')}>Journal</button><button onClick={() => { setCartOpen(true); setCheckout(false); }}>Korpa ({totalItems})</button></nav><button className="mobile-cart" onClick={() => { setCartOpen(true); setCheckout(false); }} aria-label={`Otvori korpu, ${totalItems} proizvoda`}>Korpa ({totalItems})</button><button className="menu-button" onClick={() => setMenu(true)} aria-label="Otvori meni">Meni +</button></header>
+    <header className="header"><a className="wordmark" href="#" aria-label="Alnera početna">alnera</a><nav aria-label="Glavna navigacija"><button onClick={goCollection}>Kolekcija <span>↗</span></button><Link href="/journal">Blog</Link><button onClick={() => { setCartOpen(true); setCheckout(false); }}>Korpa ({totalItems})</button></nav><button className="mobile-cart" onClick={() => { setCartOpen(true); setCheckout(false); }} aria-label={`Otvori korpu, ${totalItems} proizvoda`}>Korpa ({totalItems})</button><button className="menu-button" onClick={() => setMenu(true)} aria-label="Otvori meni">Meni +</button></header>
 
     <section className="story" ref={story} aria-label="Otvori svoj ritual — skroluj za otvaranje kutije">
       <div className="stage">
@@ -234,7 +237,7 @@ export default function Storefront({ initialProduct = null }: { initialProduct?:
     <section className="home-journal"><div className="home-journal-heading"><div><span className="eyebrow">PROSTOR ZA INSPIRACIJU</span><h2>Alnera <em>journal.</em></h2></div><Link className="text-link" href="/journal">Sve priče <span>↗</span></Link></div><div className="journal-context"><p>O sastavu, malim navikama i pažnji koju posvećuješ sebi.<br/>Priče koje povezuju Alnera svet i tvoju svakodnevicu.</p><span>ČITAJ. ISTRAŽI. PRONAĐI SVOJ RITAM.</span></div><div className="home-journal-grid">{articles.slice(0,2).map((article,i) => <Link className="home-journal-card" href={`/journal/${article.slug}`} key={article.slug}><div className="journal-photo-frame"><EditorialPhoto scene={i === 0 ? "travel" : article.image}/><span className="journal-photo-label">ALNERA JOURNAL / 0{i+1}</span></div><div className="story-card-meta"><span>0{i+1} / {article.category}</span><span>{article.time}</span></div><h3>{article.title}</h3><p className="home-journal-excerpt">{article.intro}</p><span className="journal-read">Pročitaj priču</span><span className="story-arrow" aria-hidden="true">↗</span></Link>)}</div></section>
     <SiteFooter/>
 
-    {menu && <div className="overlay" role="dialog" aria-modal="true" aria-label="Navigacija"><button className="close" autoFocus onClick={() => setMenu(false)}>Zatvori ×</button><div className="menu-links"><button onClick={goCollection}>Kolekcija ↗</button><button onClick={() => { setMenu(false); router.push('/journal'); }}>Journal ↗</button></div></div>}
+    {menu && <div className="overlay" role="dialog" aria-modal="true" aria-label="Navigacija"><button className="close" autoFocus onClick={() => setMenu(false)}>Zatvori ×</button><div className="menu-links"><button onClick={goCollection}>Kolekcija ↗</button><Link href="/journal" onClick={() => setMenu(false)}>Blog</Link></div></div>}
     {detail !== null && <div className="overlay product-dialog" role="dialog" aria-modal="true" aria-label={products[detail].name} style={{ background: products[detail].color }}>
       <div className="product-nav"><Link className="wordmark" href="/">alnera</Link><button onClick={() => { setCartOpen(true); setCheckout(false); }}>Korpa ({totalItems})</button><button autoFocus onClick={closeProduct}>Kolekcija ×</button></div>
       <div className="product-main"><div className="detail-art"><span className="product-ghost" aria-hidden="true">{products[detail].name}</span><Bottle index={detail}/><span className="photo-caption">ALNERA / {products[detail].name.toUpperCase()} / {products[detail].capsules} KAPSULA{detail === 0 && <small className={glowStyles.assetNote}>Privremeni prikaz ambalaže. Finalna etiketa je u pripremi.</small>}</span></div>
@@ -297,11 +300,11 @@ export default function Storefront({ initialProduct = null }: { initialProduct?:
         onClick={event => { if (event.target === event.currentTarget) dismissPromo(); }}
       >
         <div className="trio-promo-layout">
-          <button className="trio-promo-close" type="button" aria-label="Zatvori ponudu" autoFocus onClick={dismissPromo}>×</button>
+          <button className="trio-promo-close" type="button" aria-label="Zatvori ponudu" onClick={dismissPromo}>×</button>
           <EditorialPhoto scene="packaging"/>
           <div className="trio-promo-copy">
             <span className="eyebrow">ALNERA TRIO · UŠTEDI {trioDiscount}%</span>
-            <h2 id="trio-promo-title">Malo pažnje, <em>samo za tebe.</em></h2>
+            <h2 id="trio-promo-title" tabIndex={-1}>Malo pažnje, <em>samo za tebe.</em></h2>
             <p id="trio-promo-description">Glow, Calm i Balance, zajedno u jednoj kutiji. Tri formule za trenutke koje odvajaš za sebe.</p>
             <div className="trio-promo-prices"><strong>{money(trioPrice)}</strong><del>{money(trioRegularPrice)}</del></div>
             <a href="#trio-kutija" className="buy-button" onClick={dismissPromo}>Pogledaj Trio kutiju <span aria-hidden="true">↗</span></a>

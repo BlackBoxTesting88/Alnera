@@ -24,7 +24,7 @@ Brend treba da dostavi potvrđene cene, zvanične fotografije/deklaracije, dozir
 
 Početna sadrži sekcije o ritualima, pakovanju i dva izdvojena članka. Sve tri stranice proizvoda imaju odgovarajući lifestyle kadar. Fotografije su odabrane iz korisnikovih kolaža 00-31-16-156 i 00-31-15-194; originali su sačuvani u public/images/alnera-lifestyle.jpg i alnera-packaging.jpg. EditorialPhoto prikazuje precizne kadrove pomoću SVG viewBox-a bez izmene originala.
 
-Journal: /journal i tri adrese /journal/ritual-koji-staje-u-tvoj-dan, /journal/prostor-za-predah, /journal/paznja-je-u-detaljima. Početni autorski tekstovi su u app/journal/articles.ts; ne iznose medicinske savete. CMS nije povezan.
+Blog / Journal: /journal, sa pet pojedinačnih članaka, pretragom i temama. Postojeće tri adrese tekstova su očuvane. Sadržaj se uređuje u app/journal/articles.ts; CMS nije povezan. Uputstvo za dodavanje tekstova, izvore i javnu SEO adresu nalazi se u docs/JOURNAL.md.
 
 ## Ispravan naziv brenda
 
